@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<RayTracer>
+	<Resolution	dpi="72" width="1920" height="1080"/>
+
+	<Camera>
+		<campos x="0" y="4.5" z="4"/>
+		<look_at x="0" y="7" z="8"/>
+	</Camera>
+	<Objects>
+		<Spheres>
+			<sphere draw="true" radius="2" coef="1.5">
+				<sphere_location x="0" y="2" z="-6"/>
+				<sphere_color r="0" g="0" b="0" ref="0.1" transp="0.9" spec="100" />
+			</sphere>
+
+
+			<sphere draw="true" radius="2" coef="1.5">						
+				<sphere_location x="0" y="7" z="8"/>
+				<sphere_color r="1" g="0" b="0" ref="1" transp="0" spec="20" />
+			</sphere>
+
+			<sphere draw="true" radius="0.7" coef="1.5">
+				<sphere_location x="3" y="-0.3" z="-1"/>
+				<sphere_color r="0.5" g="0.5" b="0.5" ref="1" transp="0" spec="50" />
+			</sphere>
+			<sphere draw="true" radius="0.7" coef="1.8">
+				<sphere_location x="-3" y="-0.3" z="-1.5"/>
+				<sphere_color r="0.2" g="0.2" b="0" ref="0.1" transp="0.9" spec="100" />
+			</sphere>
+			<sphere draw="true" radius="0.26" coef="1.5">
+				<sphere_location x="0" y="1.76" z="-1.5"/>
+				<sphere_color r="0.5" g="0.5" b="0.5" ref="0.05" transp="0.9" spec="5" />
+			</sphere>
+		</Spheres>
+		<Cylinders>
+			<cylinder draw="true" radius="0.6" coef="1.5">
+				<cylinder_location x="-5" y="-1" z="-6"/>
+				<cylinder_direction x="0" y="4" z="0"/>
+				<cylinder_color r="1" g="0" b="1" ref="0.6" transp="0.4" spec="10" />
+			</cylinder>
+			<cylinder draw="true" radius="0.6" coef="1.5">
+				<cylinder_location x="5" y="-1" z="3"/>
+				<cylinder_direction x="0" y="4" z="0"/>
+				<cylinder_color r="1" g="0" b="1" ref="0.6" transp="0.4" spec="10" />
+			</cylinder>
+			<cylinder draw="true" radius="0.6" coef="1.5">
+				<cylinder_location x="-5" y="-1" z="3"/>
+				<cylinder_direction x="0" y="4" z="0"/>
+				<cylinder_color r="1" g="0" b="1" ref="0.6" transp="0.4" spec="10" />
+			</cylinder>
+			<cylinder draw="true" radius="0.6" coef="1.5">
+				<cylinder_location x="5" y="-1" z="-6"/>
+				<cylinder_direction x="0" y="4" z="0"/>
+				<cylinder_color r="1" g="0" b="1" ref="0.6" transp="0.4" spec="10" />
+			</cylinder>
+			<cylinder draw="true" radius="0.67" coef="1.5">
+				<cylinder_location x="0" y="-1" z="-1.5"/>
+				<cylinder_direction x="0" y="1.5" z="0"/>
+				<cylinder_color r="0" g="0.8" b="0.8" ref="0.2" transp="0.1" spec="10" />
+			</cylinder>
+			<cylinder draw="false" radius="1" coef="1.5">
+				<cylinder_location x="-3" y="-1" z="4"/>
+				<cylinder_direction x="0" y="3" z="0"/>
+				<cylinder_color r="0.9" g="0.9" b="0.9" ref="0.1" transp="0.0" spec="20" />
+			</cylinder>
+			<cylinder draw="false" radius="1" coef="1.5">
+				<cylinder_location x="3" y="-1" z="4"/>
+				<cylinder_direction x="0" y="3" z="0"/>
+				<cylinder_color r="0.9" g="0.9" b="0.9" ref="0.1" transp="0.0" spec="20" />
+			</cylinder>
+		</Cylinders>
+		<Planes>
+			<plane draw="true" pos="-1">
+				<plane_normal x="0" y="1" z="0"/>
+				<plane_color r="0" g="0" b="0.6" ref="0.1" transp="0" spec="10" />
+			</plane>
+			<plane draw="false" pos="-10">
+				<plane_normal x="0" y="0" z="-1"/>
+				<plane_color r="0.2" g="0.2" b="0.8" ref="0" transp="0" spec="10" />
+			</plane>
+			<plane draw="false" pos="-8">
+				<plane_normal x="1" y="0" z="0"/>
+				<plane_color r="0.7" g="0.05" b="0.05" ref="0" transp="0" spec="10" />
+			</plane>			
+			<plane draw="false" pos="-8">
+				<plane_normal x="-1" y="0" z="0"/>
+				<plane_color r="0.05" g="0.7" b="0.05" ref="0" transp="0" spec="10" />
+			</plane>			
+			<plane draw="false" pos="-10">
+				<plane_normal x="0" y="-1" z="0"/>
+				<plane_color r="0.5" g="0.5" b="0.5" ref="0" transp="0" spec="10" />
+			</plane>
+			<plane draw="false" pos="-8">
+				<plane_normal x="0" y="0" z="1"/>
+				<plane_color r="0" g="0" b="0" ref="0" transp="0" spec="10" />
+			</plane>
+		</Planes>
+		<Table>
+			<table_color r="0.9" g="0.9" b="0.9" ref="0.1" transp="0.8" spec="20" />
+			<table_p1 x="-0.5" y="0.5" z="-2"/>
+			<table_p2 x="0.5" y="1.5" z="-1"/>
+			<table_material coef="1.5"/>
+		</Table>	
+	</Objects>
+	<Lights>
+		<light on="true">
+			<light_position x="-4" y="9" z="-5"/>
+			<light_color r="1" g="1" b="1" ref="0" transp="0" spec="0" />
+		</light>	
+		<light on="true">
+			<light_position x="3" y="7" z="4"/>
+			<light_color r="1" g="1" b="1" ref="0" transp="0" spec="0" />
+		</light>	
+		<light on="false">
+			<light_position x="14" y="10" z="-10"/>
+			<light_color r="0" g="0" b="1" ref="0" transp="0" spec="0" />
+		</light>					
+	</Lights>	
+</RayTracer>
+
+
+		
