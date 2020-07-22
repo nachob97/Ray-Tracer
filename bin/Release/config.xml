@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <RayTracer>
-	<Resolution	dpi="72" width="4096" height="2160"/>
+	<Resolution	dpi="72" width="1920" height="1080"/>
 
 	<Camera>
 		<campos x="-4" y="7.5" z="10.5"/>

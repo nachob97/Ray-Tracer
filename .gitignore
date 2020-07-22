@@ -11,3 +11,6 @@ bin/Release/test.bmp
 bin/Release/testRef.bmp
 bin/Release/testTransp.bmp
 obj/Release/main.o
+bin/Release/test.bmp
+bin/Release/testRef.bmp
+obj/Release/tinyxml2.o

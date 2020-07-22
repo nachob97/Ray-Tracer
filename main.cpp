@@ -366,18 +366,6 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
     tinyxml2::XMLDocument doc;
 	doc.LoadFile( "config.xml" );
     tinyxml2::XMLElement* resolution = doc.FirstChildElement("RayTracer")->FirstChildElement("Resolution");
-	int dpi = resolution->IntAttribute("dpi",72);
-	int width = resolution->IntAttribute("width",640);
-	int height = resolution->IntAttribute("height",480);
-	int n = width*height;
-	RGBType *pixels = new RGBType[n];
-	RGBType *pixels2 = new RGBType[n];
-	RGBType *pixels3 = new RGBType[n];
-
-	int aadepth = 1;
-	double aspectratio = (double)width/(double)height;
-
-
 
 	Vect O (0,0,0);
 	Vect X (1,0,0);
@@ -495,10 +483,20 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
         }
 	}
 
+	int dpi = resolution->IntAttribute("dpi",72);
+	int width = resolution->IntAttribute("width",640);
+	int height = resolution->IntAttribute("height",480);
+	int n = width*height;
+	RGBType *pixels = new RGBType[n];
+	RGBType *pixels2 = new RGBType[n];
+	RGBType *pixels3 = new RGBType[n];
+
+	int aadepth = 2;
+	double aspectratio = (double)width/(double)height;
+
 	int pixel, aa_index;
 	double xamnt, yamnt;
 	double tempRed, tempGreen, tempBlue, tempRef, tempTransp;
-
 
 	for (int x = 0; x < width; x++) {
 		for (int y = 0; y < height; y++) {
@@ -510,41 +508,43 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
 			double tempRef[aadepth*aadepth];
 			double tempTransp[aadepth*aadepth];
 
-			for (int aax = 0; aax < 1; aax++) {
-				for (int aay = 0; aay < 1; aay++) {
+			for (int aax = 0; aax < aadepth; aax++) {
+				for (int aay = 0; aay < aadepth; aay++) {
 
-					aa_index = aay + aax;
+					aa_index = aay*aadepth + aax;
 					// Rayo de la camara al pixel
-						//  no anti-aliasing
+
 						if (width > height) {
 							// Imagen ancha
-							xamnt = ((x+0.5)/width)*aspectratio - (((width-height)/(double)height)/2);
-							yamnt = ((height - y) + 0.5)/height;
+                            xamnt = ((x + (double)aax / (aadepth - 1)) / width)*aspectratio - (((width - height) / height) / 2);
+                            yamnt = ((height - y) + (double)aax / (aadepth - 1)) / height;
 						}
 						else if (height > width) {
 							// Imagen alta
-							xamnt = (x + 0.5)/ width;
-							yamnt = (((height - y) + 0.5)/height)/aspectratio - (((height - width)/(double)width)/2);
+							xamnt = (x + (double)aax / (aadepth - 1)) / width;
+                            yamnt = (((height - y) + (double)aax / (aadepth - 1)) / height) / aspectratio - (((height - width) / width) / 2);
 						}
 						else {
 							// Imagen cuadrada
-							xamnt = (x + 0.5)/width;
-							yamnt = ((height - y) + 0.5)/height;
+							xamnt = (x + (double)aax / (aadepth - 1)) / width;
+                            yamnt = ((height - y) + (double)aax / (aadepth - 1)) / height;
 						}
 
+                //camera ray
+                Vect cam_ray_origin = scene_cam->getCameraPosition();
+                Vect cam_ray_direction = camdir.vectAdd(camright.vectMult(xamnt - 0.5).vectAdd(camdown.vectMult(yamnt - 0.5))).normalize();
 
-    Vect cam_ray_origin = scene_cam->getCameraPosition();
-    Vect cam_ray_direction = camdir.vectAdd(camright.vectMult(xamnt - 0.5).vectAdd(camdown.vectMult(yamnt - 0.5))).normalize();
-    Ray* cam_ray = new Ray(cam_ray_origin, cam_ray_direction);
-    Color* intersection_color = trace(cam_ray,scene_objects,light_sources,1,1);
-    delete cam_ray;
-    tempRed[aa_index] = intersection_color->getColorRed();
-    tempGreen[aa_index] = intersection_color->getColorGreen();
-    tempBlue[aa_index] = intersection_color->getColorBlue();
-    tempRef[aa_index] = intersection_color->getColorRefl();
-    tempTransp[aa_index] = intersection_color->getColorTransp();
+                Ray* cam_ray = new Ray(cam_ray_origin, cam_ray_direction);
+                
+                Color* intersection_color = trace(cam_ray,scene_objects,light_sources,1,1);
+                delete cam_ray;
+                tempRed[aa_index] = intersection_color->getColorRed();
+                tempGreen[aa_index] = intersection_color->getColorGreen();
+                tempBlue[aa_index] = intersection_color->getColorBlue();
+                tempRef[aa_index] = intersection_color->getColorRefl();
+                tempTransp[aa_index] = intersection_color->getColorTransp();
 
-    delete intersection_color;
+                delete intersection_color;
 				}
 			}
 
