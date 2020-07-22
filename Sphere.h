@@ -21,7 +21,7 @@ class Sphere : public Object {
 	// method functions
 	Vect getSphereCenter () { return center; }
 	double getSphereRadius () { return radius; }
-	virtual Color* getColor () { return new Color(color->getColorRed(),color->getColorGreen(),color->getColorBlue(),color->getColorRefl(),color->getColorTransp(), color->getColorSpec()); }
+	virtual Color* getColor () { return color;}
     double getCoef(){return coef;}
 
 	virtual Vect getNormalAt(Vect point) {

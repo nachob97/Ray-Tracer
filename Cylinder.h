@@ -24,7 +24,7 @@ class Cylinder : public Object {
 	Vect getCylCenter () { return center; }
 	double getCylRadius () { return radius; }
 	Vect getCylBase(){return base;}
-	virtual Color* getColor () { return new Color(color->getColorRed(),color->getColorGreen(),color->getColorBlue(),color->getColorRefl(),color->getColorTransp(), color->getColorSpec()); }
+	virtual Color* getColor () { return color;}
     double getCoef(){return coef;}
 
 

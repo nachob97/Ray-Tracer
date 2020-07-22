@@ -1,2 +1,13 @@
 hpc_RayTracer.code-workspace
 
+main.o
+test.bmp
+rayTracer
+testRef.bmp
+testTransp.bmp
+tinyxml2.o
+bin/Release/RayTracer
+bin/Release/test.bmp
+bin/Release/testRef.bmp
+bin/Release/testTransp.bmp
+obj/Release/main.o

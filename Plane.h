@@ -20,7 +20,7 @@ class Plane : public Object {
 	// method functions
 	Vect getPlaneNormal () { return normal; }
 	double getPlaneDistance () { return distance; }
-	virtual Color* getColor () { return  new Color(color->getColorRed(),color->getColorGreen(),color->getColorBlue(),color->getColorRefl(),color->getColorTransp(), color->getColorSpec()); }
+	virtual Color* getColor () { return color; }
      double getCoef(){return 0;}
 
 	virtual Vect getNormalAt(Vect point) {

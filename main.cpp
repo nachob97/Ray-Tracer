@@ -226,8 +226,12 @@ Color* trace(Ray* ray,vector<Object*> scene_objects,vector<Light*> light_sources
             if (depth == 1){
                  res->setColorRefl(scene_objects.at(index_of_winning_object)->getColor()->getColorRefl());
                  res->setColorTransp(scene_objects.at(index_of_winning_object)->getColor()->getColorTransp());
-                 return res->colorAdd(getColor(scene_objects,index_of_winning_object,ray,intersection_position,winning_obj_normal,light_sources,depth,transp));
+                 Color* color_aux = getColor(scene_objects,index_of_winning_object,ray,intersection_position,winning_obj_normal,light_sources,depth,transp);
+                 res = res->colorAdd(color_aux);
+                 delete(color_aux);
+                 return res;
             }else
+                delete(res);
                 return getColor(scene_objects,index_of_winning_object,ray,intersection_position,winning_obj_normal,light_sources,depth,transp);
 
         }
@@ -298,28 +302,42 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
 			    }
             }
 			}
-
-            luz_amb = luz_amb->colorAdd((light_sources.at(light_index)->getLightColor())->colorScalar(cosine_angle*opac*(1.5f/light_sources.size())));
-            Vect reflDir = reflect(new Ray(point, distance_to_light.normalize().negative()), normal);
+            delete (shadow_ray);
+            Color* aux_luz_amb = (light_sources.at(light_index)->getLightColor())->colorScalar(cosine_angle*opac*(1.5f/light_sources.size()));
+            luz_amb = luz_amb->colorAdd(aux_luz_amb);
+            delete(aux_luz_amb);
+            Ray* reflect_ray = new Ray(point, distance_to_light.normalize().negative());
+            Vect reflDir = reflect(reflect_ray, normal);
             double specular = max(0.d, -(reflDir.dotProduct(ray->getRayDirection())));
-
+            delete(reflect_ray);
             double specular_ind = pow(specular, obj->getColor()->getColorSpec()); //obj->specular
 			if (obj->getColor()->getColorSpec() > 0) {
-			color_spec = color_spec->colorAdd(light_sources.at(light_index)->getLightColor()->colorScalar(specular_ind));
+            Color* aux_color_spec = light_sources.at(light_index)->getLightColor()->colorScalar(specular_ind);
+			color_spec = color_spec->colorAdd(aux_color_spec);
+            delete(aux_color_spec);
 			}
         }
 	}
-
-	final_color = final_color->colorAdd(luz_amb->colorMultiply(obj->getColor())->colorScalar(0.6));
-	final_color = final_color->colorAdd(color_spec->colorScalar(obj->getColor()->getColorRefl()+obj->getColor()->getColorTransp()+0.05));
-    delete luz_amb, color_spec;
+    Color* aux_luz_amb = (obj->getColor())->colorScalar(0.6);
+	final_color = final_color->colorAdd(luz_amb->colorMultiply(aux_luz_amb));
+    delete (aux_luz_amb);
+    
+    Color* aux_color_spec = color_spec->colorScalar(obj->getColor()->getColorRefl()+obj->getColor()->getColorTransp()+0.05);
+	final_color = final_color->colorAdd(aux_color_spec);
+    delete (aux_color_spec);
+    delete (luz_amb);
+    delete(color_spec);
     if (depth < MAX_DEPH){
         //EL OBJETO ES REFLEJANTE
         if (winning_object_color->getColorRefl() > 0 && winning_object_color->getColorRefl() <= 1){
             Ray* reflection = new Ray(displace(reflection_direction.normalize(), point),reflection_direction.normalize());
             Color* color_r = trace(reflection,scene_objects,light_sources,depth+1,transp);
+            delete(reflection);
             //Color* color_r = new Color(0,0,0,0,0,0);
-            final_color = final_color->colorAdd(color_r->colorScalar(winning_object_color->getColorRefl()));
+            Color* aux_color_r= color_r->colorScalar(winning_object_color->getColorRefl());
+            final_color = final_color->colorAdd(aux_color_r);
+            delete(aux_color_r);
+            delete(color_r);
         }
         //EL OBJETO ES TRANSPARENTE
         double coef_out;
@@ -331,7 +349,11 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
                 Vect dir_out = refract(ray->getRayDirection(), normal, obj->getCoef());
                 Ray* refraction = new Ray(displace(dir_out.normalize(), point), dir_out.normalize());
                 Color* color_t = trace(refraction,scene_objects,light_sources,depth+1, coef_out);
-                final_color = final_color->colorAdd(color_t->colorScalar(winning_object_color->getColorTransp())); //final_color->colorScalar(winning_object_color->getColorTransp())                 //->colorAdd(color_t->colorScalar(winning_object_color->getColorTransp()));
+                delete(refraction);
+                Color* aux_color_t = color_t->colorScalar(winning_object_color->getColorTransp());
+                final_color = final_color->colorAdd(aux_color_t);
+                delete(aux_color_t);
+                delete(color_t);
            // }
 
         }
@@ -574,6 +596,7 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
 	savebmp("testTransp.bmp",width,height,dpi,pixels3);
 
 	delete pixels, tempRed, tempGreen, tempBlue;
-
+    delete [] pixels2;
+    delete [] pixels3;
 	return 0;
 }

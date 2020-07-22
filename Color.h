@@ -28,6 +28,15 @@ class Color {
 		return(red + green + blue)/3;
 	}
 
+	Color* colorCopy(Color* color) {
+		red = color->getColorRed();
+	    green = color->getColorGreen();
+	    blue = color->getColorBlue();
+		reflective = color->getColorRefl();
+		transparence = color->getColorTransp();
+		specular = color->getColorSpec();
+	}
+
 	Color* colorScalar(double scalar) {
 		return new Color (red*scalar, green*scalar, blue*scalar, reflective,transparence, specular);
 	}
@@ -68,7 +77,7 @@ class Color {
 		if (green < 0) {green = 0;}
 		if (blue < 0) {blue = 0;}
 
-		return new Color (red, green, blue, reflective,transparence, specular);
+		//return new Color (red, green, blue, reflective,transparence, specular);
 	}
 };
 
