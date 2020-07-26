@@ -504,9 +504,6 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
     process_group = process_id / 4;
     rank_in_group = process_id % 4;
 
-    MPI_Datatype type_double_array; //datatype de transferencia
-    MPI_Type_contiguous(5, MPI_DOUBLE, &type_double_array);
-    MPI_Type_commit(&type_double_array);
     int destination = process_group*4;
     double* pixels_aux = NULL;
     if(rank_in_group == 0) {
@@ -521,10 +518,11 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
         pixels3 = new RGBType[n];
     }
 
-	for (int x = process_group; x < width; x+=ngroups) {
-		for (int y = 0; y < height; y++) {
+	for (int y = process_group; y < height; y+=ngroups) {
+        double *temp_vars;
+        temp_vars = new double[width*5];
+        for (int x = 0; x < width; x++) {
 			pixel = y*width + x;
-            double temp_vars[5];
 
             int aax, aay;
             switch(rank_in_group) {
@@ -567,33 +565,39 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
             
             Color* intersection_color = trace(cam_ray,scene_objects,light_sources,1,1);
             delete cam_ray;
-            temp_vars[0] = intersection_color->getColorRed();
-            temp_vars[1] = intersection_color->getColorGreen();
-            temp_vars[2] = intersection_color->getColorBlue();
-            temp_vars[3] = intersection_color->getColorRefl();
-            temp_vars[4] = intersection_color->getColorTransp();
+            temp_vars[x*5+0] = intersection_color->getColorRed();
+            temp_vars[x*5+1] = intersection_color->getColorGreen();
+            temp_vars[x*5+2] = intersection_color->getColorBlue();
+            temp_vars[x*5+3] = intersection_color->getColorRefl();
+            temp_vars[x*5+4] = intersection_color->getColorTransp();
 
             delete intersection_color;
-
-            if(rank_in_group == 0) {
-                double temp_vars1[5];
-                double temp_vars2[5];
-                double temp_vars3[5];
-                MPI_Recv(&temp_vars1, 1, type_double_array, process_group*4+1, pixel*4+1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-                MPI_Recv(&temp_vars2, 1, type_double_array, process_group*4+2, pixel*4+2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-                MPI_Recv(&temp_vars3, 1, type_double_array, process_group*4+3, pixel*4+3, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-                
-
-                for(int i = 0; i < 5; i++){
-                    pixels_aux[index_pixels_aux*5+i] = (temp_vars[i]+temp_vars1[i]+temp_vars2[i]+temp_vars3[i]) / 4.0;
-                }
-                index_pixels_aux++;
-            }
-            else{
-                int tag = pixel*4 + rank_in_group;
-                MPI_Ssend(&temp_vars, 1, type_double_array, destination, tag, MPI_COMM_WORLD);
-            }
 		}
+
+        if(rank_in_group == 0) {
+            double *temp_vars1, *temp_vars2, *temp_vars3;
+            temp_vars1 = new double[width*5];
+            temp_vars2 = new double[width*5];
+            temp_vars3 = new double[width*5];
+            MPI_Recv(temp_vars1, width*5, MPI_DOUBLE, process_group*4+1, y+1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(temp_vars2, width*5, MPI_DOUBLE, process_group*4+2, y+2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(temp_vars3, width*5, MPI_DOUBLE, process_group*4+3, y+3, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            
+            for (int x = 0; x < width; x++) {
+                for(int i = 0; i < 5; i++){
+                    pixels_aux[index_pixels_aux*width*5+x*5+i] = (temp_vars[x*5+i]+temp_vars1[x*5+i]+temp_vars2[x*5+i]+temp_vars3[x*5+i]) / 4.0;
+                }
+            }
+            index_pixels_aux++;
+            delete [] temp_vars1;
+            delete [] temp_vars2;
+            delete [] temp_vars3;
+        }
+        else{
+            int tag = y + rank_in_group;
+            MPI_Ssend(temp_vars, width*5, MPI_DOUBLE, destination, tag, MPI_COMM_WORLD);
+        }
+        delete [] temp_vars;
 	}
 
     int color = (rank_in_group == 0) ? color = 1 : color = 0;
@@ -612,7 +616,7 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
         delete [] pixels_aux;
         for(int i = 0; i < ngroups; i++) {
             for(int j = 0; j < n/ngroups; j++) {
-                pixel = (j%height)*width+(j/height)*ngroups+i;
+                pixel = (j/width*ngroups)*width + i*width + j%width;
                 int pixel_recvbuf = i*(n/ngroups)+j;
                 pixels[pixel].r = recvbuf[pixel_recvbuf*5+0];
                 pixels[pixel].g = recvbuf[pixel_recvbuf*5+1];
