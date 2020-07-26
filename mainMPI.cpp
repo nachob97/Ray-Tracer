@@ -488,9 +488,6 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
 	int width = resolution->IntAttribute("width",640);
 	int height = resolution->IntAttribute("height",480);
 	int n = width*height;
-	RGBType *pixels = new RGBType[n];
-	RGBType *pixels2 = new RGBType[n];
-	RGBType *pixels3 = new RGBType[n];
 
     //profundidad del antialiasing
 	int aadepth = 2;
@@ -498,7 +495,6 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
 
 	int pixel, aa_index;
 	double xamnt, yamnt;
-	//double tempRed, tempGreen, tempBlue, tempRef, tempTransp;
 
     //variables de MPI
     int process_id, nproc, process_group, ngroups, rank_in_group;
@@ -512,8 +508,18 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
     MPI_Type_contiguous(5, MPI_DOUBLE, &type_double_array);
     MPI_Type_commit(&type_double_array);
     int destination = process_group*4;
-    double pixels_aux[n/ngroups][5];
+    double* pixels_aux = NULL;
+    if(rank_in_group == 0) {
+        pixels_aux = new double[n/ngroups*5];
+    }
     int index_pixels_aux = 0;
+
+    RGBType *pixels, *pixels2, *pixels3;
+    if(process_id == 0) {
+        pixels = new RGBType[n];
+        pixels2 = new RGBType[n];
+        pixels3 = new RGBType[n];
+    }
 
 	for (int x = process_group; x < width; x+=ngroups) {
 		for (int y = 0; y < height; y++) {
@@ -579,7 +585,7 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
                 
 
                 for(int i = 0; i < 5; i++){
-                    pixels_aux[index_pixels_aux][i] = (temp_vars[i]+temp_vars1[i]+temp_vars2[i]+temp_vars3[i]) / 4.0;
+                    pixels_aux[index_pixels_aux*5+i] = (temp_vars[i]+temp_vars1[i]+temp_vars2[i]+temp_vars3[i]) / 4.0;
                 }
                 index_pixels_aux++;
             }
@@ -589,42 +595,49 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
             }
 		}
 	}
-    double recvbuf[n][5];
+
     int color = (rank_in_group == 0) ? color = 1 : color = 0;
     MPI_Comm new_comm;
     MPI_Comm_split(MPI_COMM_WORLD, color, process_id, &new_comm);
 
-    if(rank_in_group == 0) {
-        MPI_Gather(&pixels_aux, n/ngroups, type_double_array, &recvbuf, n/ngroups, type_double_array, 0, new_comm);
+    if(rank_in_group == 0 && process_id != 0) {
+        MPI_Gather(pixels_aux, n/ngroups*5, MPI_DOUBLE, NULL, n/ngroups*5, MPI_DOUBLE, 0, new_comm);
+        delete [] pixels_aux;
     }
     
+    double *recvbuf;
     if(process_id == 0) {
+        recvbuf = new double[n*5];
+        MPI_Gather(pixels_aux, n/ngroups*5, MPI_DOUBLE, recvbuf, n/ngroups*5, MPI_DOUBLE, 0, new_comm);
+        delete [] pixels_aux;
         for(int i = 0; i < ngroups; i++) {
             for(int j = 0; j < n/ngroups; j++) {
                 pixel = (j%height)*width+(j/height)*ngroups+i;
                 int pixel_recvbuf = i*(n/ngroups)+j;
-                pixels[pixel].r = recvbuf[pixel_recvbuf][0];
-                pixels[pixel].g = recvbuf[pixel_recvbuf][1];
-                pixels[pixel].b = recvbuf[pixel_recvbuf][2];
+                pixels[pixel].r = recvbuf[pixel_recvbuf*5+0];
+                pixels[pixel].g = recvbuf[pixel_recvbuf*5+1];
+                pixels[pixel].b = recvbuf[pixel_recvbuf*5+2];
 
-                pixels2[pixel].r = 1 *recvbuf[pixel_recvbuf][3];
-                pixels2[pixel].g = 1 *recvbuf[pixel_recvbuf][3];
-                pixels2[pixel].b = 1 *recvbuf[pixel_recvbuf][3];
+                pixels2[pixel].r = 1 *recvbuf[pixel_recvbuf*5+3];
+                pixels2[pixel].g = 1 *recvbuf[pixel_recvbuf*5+3];
+                pixels2[pixel].b = 1 *recvbuf[pixel_recvbuf*5+3];
 
-                pixels3[pixel].r = 1 *recvbuf[pixel_recvbuf][4];
-                pixels3[pixel].g = 1 *recvbuf[pixel_recvbuf][4];
-                pixels3[pixel].b = 1 *recvbuf[pixel_recvbuf][4];
+                pixels3[pixel].r = 1 *recvbuf[pixel_recvbuf*5+4];
+                pixels3[pixel].g = 1 *recvbuf[pixel_recvbuf*5+4];
+                pixels3[pixel].b = 1 *recvbuf[pixel_recvbuf*5+4];
             }
         }
+        delete [] recvbuf;
+
         savebmp("test.bmp",width,height,dpi,pixels);
         savebmp("testRef.bmp",width,height,dpi,pixels2);
         savebmp("testTransp.bmp",width,height,dpi,pixels3);
+
+        delete [] pixels;
+        delete [] pixels2;
+        delete [] pixels3;
     }
 
-	delete pixels;
-    //delete tempRed, tempGreen, tempBlue;
-    delete [] pixels2;
-    delete [] pixels3;
     MPI_Finalize();
 	return 0;
 }
