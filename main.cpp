@@ -491,6 +491,7 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
 	RGBType *pixels2 = new RGBType[n];
 	RGBType *pixels3 = new RGBType[n];
 
+    //profundidad del antialiasing
 	int aadepth = 2;
 	double aspectratio = (double)width/(double)height;
 
