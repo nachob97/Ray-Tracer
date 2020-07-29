@@ -28,7 +28,7 @@ class Color {
 		return(red + green + blue)/3;
 	}
 
-	Color* colorCopy(Color* color) {
+	void colorCopy(Color* color) {
 		red = color->getColorRed();
 	    green = color->getColorGreen();
 	    blue = color->getColorBlue();
