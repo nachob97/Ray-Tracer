@@ -28,7 +28,7 @@ class Color {
 		return(red + green + blue)/3;
 	}
 
-	Color* colorCopy(Color* color) {
+	void colorCopy(Color* color) {
 		red = color->getColorRed();
 	    green = color->getColorGreen();
 	    blue = color->getColorBlue();
@@ -77,6 +77,7 @@ class Color {
 		if (green < 0) {green = 0;}
 		if (blue < 0) {blue = 0;}
 
+		return this;
 		//return new Color (red, green, blue, reflective,transparence, specular);
 	}
 };
