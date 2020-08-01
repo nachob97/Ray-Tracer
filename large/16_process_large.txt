@@ -1,0 +1,210 @@
+ejecución 30:
+
+
+real	2m1.567s
+user	0m0.127s
+sys	0m0.052s
+
+ejecución 29:
+
+
+real	1m58.369s
+user	0m0.124s
+sys	0m0.047s
+
+ejecución 28:
+
+
+real	1m58.580s
+user	0m0.122s
+sys	0m0.058s
+
+ejecución 27:
+
+
+real	2m1.817s
+user	0m0.129s
+sys	0m0.055s
+
+ejecución 26:
+
+
+real	1m59.250s
+user	0m0.111s
+sys	0m0.049s
+
+ejecución 25:
+
+
+real	2m2.873s
+user	0m0.117s
+sys	0m0.049s
+
+ejecución 24:
+
+
+real	1m59.490s
+user	0m0.115s
+sys	0m0.057s
+
+ejecución 23:
+
+
+real	1m59.601s
+user	0m0.121s
+sys	0m0.062s
+
+ejecución 22:
+
+
+real	1m58.246s
+user	0m0.119s
+sys	0m0.059s
+
+ejecución 21:
+
+
+real	1m57.454s
+user	0m0.124s
+sys	0m0.053s
+
+ejecución 20:
+
+
+real	1m57.576s
+user	0m0.119s
+sys	0m0.064s
+
+ejecución 19:
+
+
+real	1m59.447s
+user	0m0.116s
+sys	0m0.062s
+
+ejecución 18:
+
+
+real	1m58.996s
+user	0m0.127s
+sys	0m0.052s
+
+ejecución 17:
+
+
+real	1m58.737s
+user	0m0.121s
+sys	0m0.063s
+
+ejecución 16:
+
+
+real	2m1.750s
+user	0m0.125s
+sys	0m0.061s
+
+ejecución 15:
+
+
+real	1m57.803s
+user	0m0.115s
+sys	0m0.061s
+
+ejecución 14:
+
+
+real	2m1.042s
+user	0m0.127s
+sys	0m0.056s
+
+ejecución 13:
+
+
+real	2m3.822s
+user	0m0.122s
+sys	0m0.053s
+
+ejecución 12:
+
+
+real	1m58.467s
+user	0m0.121s
+sys	0m0.060s
+
+ejecución 11:
+
+
+real	1m57.264s
+user	0m0.128s
+sys	0m0.054s
+
+ejecución 10:
+
+
+real	2m1.661s
+user	0m0.120s
+sys	0m0.061s
+
+ejecución 9:
+
+
+real	2m2.652s
+user	0m0.119s
+sys	0m0.067s
+
+ejecución 8:
+
+
+real	2m0.923s
+user	0m0.118s
+sys	0m0.057s
+
+ejecución 7:
+
+
+real	2m9.110s
+user	0m0.123s
+sys	0m0.049s
+
+ejecución 6:
+
+
+real	1m58.115s
+user	0m0.129s
+sys	0m0.047s
+
+ejecución 5:
+
+
+real	1m59.712s
+user	0m0.124s
+sys	0m0.055s
+
+ejecución 4:
+
+
+real	2m0.395s
+user	0m0.131s
+sys	0m0.058s
+
+ejecución 3:
+
+
+real	2m4.986s
+user	0m0.119s
+sys	0m0.057s
+
+ejecución 2:
+
+
+real	1m58.048s
+user	0m0.121s
+sys	0m0.067s
+
+ejecución 1:
+
+
+real	1m59.950s
+user	0m0.134s
+sys	0m0.055s
+

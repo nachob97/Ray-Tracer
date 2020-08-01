@@ -1,0 +1,60 @@
+ejecución 12:
+
+
+real	20m3.225s
+user	20m0.805s
+sys	0m0.226s
+
+ejecución 11:
+
+
+real	20m2.464s
+user	20m0.051s
+sys	0m0.233s
+
+ejecución 10:
+
+ejecución 10:
+
+
+real	20m3.220s
+user	20m0.503s
+sys	0m0.284s
+
+ejecución 9:
+
+
+real	20m1.382s
+user	19m59.138s
+sys	0m0.213s
+
+ejecución 8:
+
+
+real	20m3.736s
+user	20m1.270s
+sys	0m0.236s
+
+ejecución 7:
+
+ejecución 3:
+
+
+real	20m2.689s
+user	20m0.365s
+sys	0m0.270s
+
+ejecución 2:
+
+
+real	20m3.223s
+user	20m0.944s
+sys	0m0.247s
+
+ejecución 1:
+
+
+real	20m3.162s
+user	20m0.847s
+sys	0m0.230s
+

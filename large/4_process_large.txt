@@ -1,0 +1,221 @@
+ejecución 30:
+
+
+real	5m21.641s
+user	0m0.030s
+sys	0m0.017s
+
+
+ejecución 29:
+
+
+real	5m13.560s
+user	0m0.032s
+sys	0m0.018s
+
+ejecución 28:
+
+
+real	5m21.489s
+user	0m0.036s
+sys	0m0.018s
+
+ejecución 27:
+
+
+real	5m26.955s
+user	0m0.037s
+sys	0m0.013s
+
+ejecución 26:
+
+
+real	5m25.428s
+user	0m0.034s
+sys	0m0.025s
+
+ejecución 25:
+
+
+real	5m39.441s
+user	0m0.042s
+sys	0m0.016s
+
+ejecución 24:
+
+
+real	5m24.405s
+user	0m0.037s
+sys	0m0.017s
+
+ejecución 23:
+
+
+real	5m23.013s
+user	0m0.046s
+sys	0m0.024s
+
+ejecución 22:
+
+
+real	5m23.343s
+user	0m0.043s
+sys	0m0.017s
+
+ejecución 21:
+
+
+real	5m23.798s
+user	0m0.037s
+sys	0m0.014s
+
+ejecución 20:
+
+
+real	5m25.700s
+user	0m0.043s
+sys	0m0.013s
+
+ejecución 19:
+
+
+real	5m24.082s
+user	0m0.041s
+sys	0m0.020s
+
+ejecución 18:
+
+
+real	5m24.876s
+user	0m0.040s
+sys	0m0.015s
+
+ejecución 17:
+
+
+real	5m24.397s
+user	0m0.036s
+sys	0m0.020s
+
+ejecución 16:
+
+
+real	5m35.013s
+user	0m0.036s
+sys	0m0.020s
+
+ejecución 15:
+
+
+real	5m24.536s
+user	0m0.031s
+sys	0m0.022s
+
+ejecución 14:
+
+
+real	5m24.564s
+user	0m0.035s
+sys	0m0.020s
+
+ejecución 13:
+
+
+real	5m26.006s
+user	0m0.039s
+sys	0m0.015s
+
+
+ejecución 13:
+
+
+real	5m28.800s
+user	0m0.036s
+sys	0m0.013s
+
+ejecución 12:
+
+
+real	5m32.218s
+user	0m0.035s
+sys	0m0.022s
+
+ejecución 11:
+
+
+real	5m33.069s
+user	0m0.035s
+sys	0m0.016s
+
+ejecución 10:
+
+
+real	5m31.585s
+user	0m0.049s
+sys	0m0.019s
+
+ejecución 9:
+
+
+real	5m32.083s
+user	0m0.038s
+sys	0m0.015s
+
+ejecución 8:
+
+
+real	5m32.026s
+user	0m0.034s
+sys	0m0.019s
+
+ejecución 7:
+
+
+real	5m36.840s
+user	0m0.038s
+sys	0m0.023s
+
+ejecución 6:
+
+
+real	5m31.544s
+user	0m0.047s
+sys	0m0.020s
+
+ejecución 5:
+
+
+real	5m38.026s
+user	0m0.038s
+sys	0m0.018s
+
+ejecución 4:
+
+
+real	5m34.748s
+user	0m0.041s
+sys	0m0.015s
+
+ejecución 3:
+
+ejecución 3:
+
+
+real	5m20.272s
+user	0m0.035s
+sys	0m0.014s
+
+ejecución 2:
+
+
+real	5m31.501s
+user	0m0.038s
+sys	0m0.020s
+
+ejecución 1:
+
+
+real	5m31.694s
+user	0m0.035s
+sys	0m0.017s
+

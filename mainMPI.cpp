@@ -543,8 +543,8 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
             // Rayo de la camara al pixel
             if (width > height) {
                 // Imagen ancha
-                xamnt = ((x + (double)aax / (aadepth - 1)) / width)*aspectratio - (((width - height) / height) / 2);
-                yamnt = ((height - y) + (double)aax / (aadepth - 1)) / height;
+                xamnt = ((x + (double)aax /((double)aadepth - 1)) / width)*aspectratio - (((width - height) /(double) height) / 2);
+                yamnt = ((height - y) + (double)aax / ((double) aadepth - 1)) / height;
             }
             else if (height > width) {
                 // Imagen alta
@@ -595,7 +595,7 @@ for (int light_index = 0; light_index < light_sources.size(); light_index++){
         }
         else{
             int tag = y + rank_in_group;
-            MPI_Ssend(temp_vars, width*5, MPI_DOUBLE, destination, tag, MPI_COMM_WORLD);
+            MPI_Send(temp_vars, width*5, MPI_DOUBLE, destination, tag, MPI_COMM_WORLD);
         }
         delete [] temp_vars;
 	}
